@@ -72,13 +72,6 @@ class Scraper:
         file.close()
 
 
-keywords = ["flutter", "nextjs", "kotlin"]
-
-scraper = Scraper(keywords)
-
-for kw in scraper.keywords:
-    db = scraper.scrape_jobs(kw)
-    scraper.write_csv(kw, db)
 
 
 
