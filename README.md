@@ -1,7 +1,7 @@
 # How to Enjoy this Website?
 On the terminal, this command will call server to show our website
 ```bash
-  flask --app main.py --debug run
+  flask --app main run
 ```
 Go to 'http://127.0.0.1:5000' to see our website!
 
