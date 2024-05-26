@@ -10,7 +10,7 @@ class BerlinScraper(Scraper):
 
     def scrape_jobs(self, keyword):
         p = sync_playwright().start()
-        browser = p.chromium.launch(headless = False)
+        browser = p.chromium.launch(headless = True)
         page = browser.new_page()
         url = f"https://berlinstartupjobs.com/skill-areas/{keyword}"
         page.goto(url)
@@ -39,12 +39,3 @@ class BerlinScraper(Scraper):
             jobs_db.append(job)
         return jobs_db
     
-    def write_csv(self, keyword, jobs_db):
-        file = open(f"{keyword}.csv", "w")
-        writer = csv.writer(file)
-        writer.writerow(['Title', 'Company', 'Description', 'Link'])
-
-        for job in jobs_db:
-            writer.writerow(job.values())
-        file.close()
-

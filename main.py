@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
-from extractors.wanted import WantedScraper
+from flask import Flask, render_template, request, redirect, send_file
+from extractors.app import Scraper
+#from extractors.wanted import WantedScraper
 from extractors.berlinstartupjobs import BerlinScraper
 from extractors.wwr import WwrScraper
 from extractors.web3 import Web3Scraper
@@ -15,6 +16,8 @@ def home():
 @app.route("/search")
 def search():
     keyword = request.args.get("keyword")
+    if keyword == None:
+        return redirect("/")
     if keyword in db:
         jobs = db[keyword]
     else:
@@ -29,3 +32,14 @@ def search():
         jobs = berlin + wwr + web3
         db[keyword] = jobs
     return render_template("search.html", keyword = keyword, jobs = jobs)
+
+@app.route("/export")
+def export():
+    keyword = request.args.get("keyword")
+    if keyword == None:
+        return redirect("/")
+    if keyword not in db:
+        return redirect(f"/search?keyword={keyword}")
+    scraper = Scraper(keyword)
+    scraper.write_csv(keyword, db[keyword])
+    return send_file(f"{keyword}.csv", as_attachment=True)

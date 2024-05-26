@@ -10,7 +10,7 @@ class Scraper:
     def write_csv(self, keyword, jobs_db):
         file = open(f"{keyword}.csv", "w")
         writer = csv.writer(file)
-        writer.writerow(['Title', 'Company', 'Reward', 'Link'])
+        writer.writerow(['Position', 'Company', 'Region', 'Link'])
 
         for job in jobs_db:
             writer.writerow(job.values())
